@@ -33,6 +33,7 @@ export interface TimesheetEntry {
   contract_id: number
   date: string
   hours: string
+  amount: string
   status: 'draft' | 'submitted' | 'approved' | 'rejected'
   rejection_reason: string | null
 }
@@ -43,9 +44,29 @@ export interface BillingRunResult {
   status: string
 }
 
-export interface Invoice {
-  id: string | number
-  [key: string]: unknown
+export interface InvoiceLineItem {
+  id: number
+  date: string
+  hours: string
+  rate: string
+  amount: string
+}
+
+export interface InvoiceSummary {
+  id: number
+  number: string
+  company: Company
+  freelancer: FreelancerProfile
+  month: string
+  total_amount: string
+  email_status: 'pending' | 'sent' | 'failed'
+  created_at: string
+}
+
+export interface Invoice extends InvoiceSummary {
+  email_sent_at: string | null
+  email_attempts: number
+  line_items: InvoiceLineItem[]
 }
 
 export interface WebhookEndpoint {

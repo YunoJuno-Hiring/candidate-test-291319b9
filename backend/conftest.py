@@ -90,3 +90,13 @@ def submitted_entry(active_contract):
         hours=Decimal('8.0'),
         status='submitted',
     )
+
+
+@pytest.fixture
+def approved_entry(active_contract):
+    return TimesheetEntry.objects.create(
+        contract=active_contract,
+        date=datetime.date(2026, 4, 7),
+        hours=Decimal('8.0'),
+        status='approved',
+    )

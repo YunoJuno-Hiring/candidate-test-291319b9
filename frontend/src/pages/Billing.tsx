@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { runBilling, fetchInvoices } from '../api/billing'
+import { StatusBadge } from '../components/StatusBadge'
 
 function currentMonth() {
   const now = new Date()
@@ -101,14 +102,33 @@ export default function Billing() {
             <table className="w-full text-sm">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium text-slate-600">Invoice ID</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-600">Invoice</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-600">Company</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-600">Freelancer</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-600">Month</th>
+                  <th className="text-right px-4 py-3 font-medium text-slate-600">Total</th>
+                  <th className="text-left px-4 py-3 font-medium text-slate-600">Status</th>
                   <th className="px-4 py-3" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {invoicesQuery.data.map((inv) => (
                   <tr key={String(inv.id)}>
-                    <td className="px-4 py-3 text-slate-700">{String(inv.id)}</td>
+                    <td className="px-4 py-3 text-slate-700">{inv.number}</td>
+                    <td className="px-4 py-3 text-slate-700">{inv.company.name}</td>
+                    <td className="px-4 py-3 text-slate-700">{inv.freelancer.name}</td>
+                    <td className="px-4 py-3 text-slate-700">
+                      {new Date(`${inv.month}T00:00:00`).toLocaleDateString(undefined, {
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </td>
+                    <td className="px-4 py-3 text-right text-slate-700">
+                      £{Number(inv.total_amount).toFixed(2)}
+                    </td>
+                    <td className="px-4 py-3">
+                      <StatusBadge status={inv.email_status} />
+                    </td>
                     <td className="px-4 py-3 text-right">
                       <Link
                         to={`/billing/invoices/${String(inv.id)}`}

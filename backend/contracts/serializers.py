@@ -35,8 +35,9 @@ class ContractCreateSerializer(serializers.ModelSerializer):
 class TimesheetEntrySerializer(serializers.ModelSerializer):
     # TODO: move validation logic (rejection_reason check) out of the view and into validate() here
     contract_id = serializers.IntegerField(read_only=True)  # redundant: 'contract' already exposes the FK id
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
 
     class Meta:
         model = TimesheetEntry
-        fields = ['id', 'contract', 'contract_id', 'date', 'hours', 'status', 'rejection_reason']
+        fields = ['id', 'contract', 'contract_id', 'date', 'hours', 'amount', 'status', 'rejection_reason']
         read_only_fields = ['id', 'contract_id']

@@ -86,11 +86,11 @@ class TimesheetListCreateView(APIView):
         if hasattr(user, 'company_admin'):
             qs = TimesheetEntry.objects.filter(
                 contract__company=user.company_admin.company
-            )
+            ).select_related('contract')
         elif hasattr(user, 'freelancer'):
             qs = TimesheetEntry.objects.filter(
                 contract__freelancer=user.freelancer
-            )
+            ).select_related('contract')
         else:
             qs = TimesheetEntry.objects.none()
 

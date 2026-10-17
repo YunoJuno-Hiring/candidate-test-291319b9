@@ -5,6 +5,9 @@ const STATUS_STYLES: Record<string, string> = {
   rejected: 'bg-red-100 text-red-800',
   active: 'bg-indigo-100 text-indigo-800',
   closed: 'bg-slate-100 text-slate-500',
+  pending: 'bg-slate-100 text-slate-600',
+  sent: 'bg-green-100 text-green-800',
+  failed: 'bg-red-100 text-red-800',
 }
 
 export function StatusBadge({ status }: { status: string }) {

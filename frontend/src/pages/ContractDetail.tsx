@@ -7,12 +7,13 @@ import { useAuth } from '../hooks/useAuth'
 import { Contract, TimesheetEntry } from '../api/client'
 
 // Props are passed down from ContractDetail — a candidate might reach for context here instead.
-function TimesheetTable({ entries, contract }: { entries: TimesheetEntry[]; contract: Contract }) {
+function TimesheetTable({ entries }: { entries: TimesheetEntry[]; contract: Contract }) {
   if (entries.length === 0) {
     return <p className="text-slate-500 text-sm">No timesheet entries yet.</p>
   }
 
   const totalHours = entries.reduce((sum, e) => sum + Number(e.hours), 0)
+  const totalAmount = entries.reduce((sum, e) => sum + Number(e.amount), 0)
 
   return (
     <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
@@ -42,7 +43,7 @@ function TimesheetTable({ entries, contract }: { entries: TimesheetEntry[]; cont
         <tfoot className="bg-slate-50 border-t border-slate-200">
           <tr>
             <td className="px-4 py-2 text-slate-500 text-xs">
-              {entries.length} entries &mdash; £{(totalHours * Number(contract.daily_rate) / 8).toFixed(2)} est.
+              {entries.length} entries &mdash; £{totalAmount.toFixed(2)}
             </td>
             <td className="px-4 py-2 font-medium text-slate-700">{totalHours}h total</td>
             <td colSpan={2} />
